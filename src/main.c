@@ -1,6 +1,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <iostream>
+#include <stdio.h>
 
 void processInput(GLFWwindow *window)
 {
@@ -17,7 +17,7 @@ int main()
 {
 	// Initialize GLFW
 	if (!glfwInit()){
-		std::cerr << "GLFW initialization failed!" << std::endl;
+        printf("GLFW init failed!\n");
 		return -1;
 	}
 	
@@ -27,7 +27,7 @@ int main()
 	window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
 	if (!window)
 	{
-		std::cout << "Failed to create GLFW window" << std::endl;
+        printf("Failed to create GLFW window!\n");
 		glfwTerminate();
 		return -1;
 	}
@@ -37,7 +37,7 @@ int main()
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
-		std::cout << "Failed to initialize GLAD" << std::endl;
+        printf("Failed to init GLAD!\n");
 		return -1;
 	}
 
