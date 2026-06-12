@@ -1,5 +1,6 @@
 # README
-- This is glfw/opengl learning repo, nothing here is original.
+- This is a GLFW/OpenGL learning project,
+- tutorial link: [learnopengl.com](https://learnopengl.com/).
 
 # Build instructions
 *NOTE: this will only compile on a UNIX/-like operating system.*
