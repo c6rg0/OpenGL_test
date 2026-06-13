@@ -1,3 +1,6 @@
+# Credits:
+# https://parkerjones.dev/posts/mastering-c-nix-flake/
+
 {
   description = "An opengl test";
 
@@ -11,8 +14,8 @@
       pkgs = import nixpkgs { inherit system; };
     in
     rec {
-      simple-parse-example = pkgs.stdenv.mkDerivation {
-        pname = "opengl_test";
+      opengl-test = pkgs.stdenv.mkDerivation {
+        pname = "opengl-test";
         version = "0.1";
 
         src = ./.;
@@ -31,12 +34,12 @@
         ];
 
         buildPhase = ''
-          gcc src/main.c src/glad.c -Iinclude -o opengl_test $(pkg-config --cflags --libs glfw3)
+          gcc -Wall -Wextra src/main.c src/glad.c -Iinclude -o opengl-test $(pkg-config --cflags --libs glfw3)
         '';
 
         installPhase = ''
           mkdir -p $out/bin
-          cp opengl_test $out/bin/
+          cp opengl-test $out/bin/
         '';
 
         meta = with pkgs.lib; {
@@ -49,8 +52,8 @@
     });
 
     defaultPackage = {
-      aarch64-darwin = self.packages.aarch64-darwin.simple-parse-example;
-      x86_64-linux = self.packages.x86_64-linux.simple-parse-example;
+      aarch64-darwin = self.packages.aarch64-darwin.opengl-test;
+      x86_64-linux = self.packages.x86_64-linux.opengl-test;
     };
 
     defaultApp = {
@@ -58,7 +61,7 @@
         inherit system;
         defaultApp = {
           type = "app";
-          program = "${pkg.simple-parse-example}/bin/opengl_test";
+          program = "${pkg.opengl-test}/bin/opengl-test";
         };
       }) self.packages;
     };

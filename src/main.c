@@ -114,30 +114,41 @@ int main()
 
     // These points represent a triangle
     float vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        0.0f,  0.5f, 0.0f
+         0.5f,  0.5f, 0.0f, // top right
+         0.5f, -0.5f, 0.0f, // bottom right
+        -0.5f, -0.5f, 0.0f, // bottom left
+        -0.5f,  0.5f, 0.0f  // top left
+    };
+    unsigned int indices[] = {
+        0, 1, 3,   // first triangle
+        1, 2, 3    // second triangle
     };
 
     // Vertex buffer object
     unsigned int VBO;
-
-    // Without the below, the bottom 2 points of the triangle 
-    // warp towards the upper left corner of the screen.
     glGenBuffers(1, &VBO);
 
-    // Vertex array object (which can hold VBOs)
+    // Vertex array object
     unsigned int VAO;
-
     glGenVertexArrays(1, &VAO);
+
+    // Element buffer object
+    unsigned int EBO;
+    glGenBuffers(1, &EBO);
 
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
     // Telling OpenGL how to intepret the vertex data
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+
+    // GL_LINE = wireframe mode, GL_FILL = opposite
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	while (!glfwWindowShouldClose(window))
 	{	
@@ -146,10 +157,9 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 
         glBindVertexArray(VAO);
-
-        // (OpenGL primitive type, vertex array index, num vertices to draw)
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        
+        glBindVertexArray(0);
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
