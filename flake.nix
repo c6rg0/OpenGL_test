@@ -34,7 +34,7 @@
         ];
 
         buildPhase = ''
-          gcc -Wall -Wextra src/main.c src/glad.c -Iinclude -o opengl-test $(pkg-config --cflags --libs glfw3)
+          g++ -Wall -Wextra src/main.cpp src/glad.c -Iinclude -o opengl-test $(pkg-config --cflags --libs glfw3)
         '';
 
         installPhase = ''
